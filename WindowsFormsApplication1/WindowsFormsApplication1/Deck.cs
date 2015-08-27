@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApplication1
+namespace WindowsFormsApplication1
 {
     class Deck
     {
@@ -20,6 +20,7 @@ namespace ConsoleApplication1
         private int currentCard;
         private int totalRoyals;
         private Random ranNum = new Random();
+        RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
 
 
         public Deck()
@@ -61,7 +62,6 @@ namespace ConsoleApplication1
         }
         public void RealShuffle()
         {
-            RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
             int n = CardDeck.Count;
             while (n > 1)
             {
@@ -86,6 +86,13 @@ namespace ConsoleApplication1
             foreach (Card c in CardDeck)
             {
                 Console.WriteLine(c.ToString());
+            }
+        }
+        public void PrintDeckInBox()
+        {
+            foreach (Card c in CardDeck)
+            {
+                Form1.Instance.AppendMyText(c.ToString());
             }
         }
         public void PrintDiscards()
@@ -191,6 +198,15 @@ namespace ConsoleApplication1
                 Console.Clear();
                 Console.WriteLine("hallo");
             }
+        }
+        public int GetDeckLength()
+        {
+            int listLength = 0;
+            foreach (Card a in CardDeck)
+            {
+                listLength += 1;
+            }
+            return listLength;
         }
 
     }
