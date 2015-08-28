@@ -18,7 +18,19 @@ namespace WindowsFormsApplication1
                                 "Jack", "Queen", "King"};
         private string[] suits = { "Hearts", "Clubs", "Diamonds", "Spades" };
         private int currentCard;
-        private int totalRoyals;
+
+       
+        public int totalRoyalFlushes { get; set; }
+        public int totalStraightFlushes { get; set; }
+        public int totalFourOfAKind { get; set; }
+        public int totalHouses { get; set; }
+        public int totalFlushes { get; set; }
+        public int totalStraights { get; set; }
+        public int totalThreeOfAKind { get; set; }
+        public int totalTwoPairs { get; set; }
+        public int totalOnePairs { get; set; }
+        public int totalHighCard { get; set; }
+
         private Random ranNum = new Random();
         RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
 
@@ -119,7 +131,7 @@ namespace WindowsFormsApplication1
             if (counter >= 5)
             {
                 Console.WriteLine("RoyalFlush in Spades!");
-                this.totalRoyals += 1;
+                this.totalRoyalFlushes += 1;
             }
         }
         public void CheckForRoyalInHearts()
@@ -135,7 +147,7 @@ namespace WindowsFormsApplication1
             if (counter >= 5)
             {
                 Console.WriteLine("RoyalFlush in Hearts!");
-                this.totalRoyals += 1;
+                this.totalRoyalFlushes += 1;
             }
         }
         public void CheckForRoyalInDiamonds()
@@ -151,7 +163,7 @@ namespace WindowsFormsApplication1
             if (counter >= 5)
             {
                 Console.WriteLine("RoyalFlush in Diamonds!");
-                this.totalRoyals += 1;
+                this.totalRoyalFlushes += 1;
             }
         }
         public void CheckForRoyalInClubs()
@@ -167,8 +179,42 @@ namespace WindowsFormsApplication1
             if (counter >= 5)
             {
                 Console.WriteLine("RoyalFlush in Clubs!");
-                this.totalRoyals += 1;
+                this.totalRoyalFlushes += 1;
             }
+        }
+        public void CheckForFlush()
+        {
+            int counterSpades = 0;
+            int counterDiamonds = 0;
+            int counterHearts = 0;
+            int counterClubs = 0;
+            foreach (Card c in DiscardDeck)
+            {
+                if (c.suit == "Spades")
+                {
+                    counterSpades += 1;
+                }
+                if (c.suit == "Hearts")
+                {
+                    counterSpades += 1;
+                }
+                if (c.suit == "Hearts")
+                {
+                    counterSpades += 1;
+                }
+                if (c.suit == "Hearts")
+                {
+                    counterSpades += 1;
+                }
+            }
+           if (counterSpades > 4 || counterClubs > 4 || counterHearts > 4 || counterDiamonds > 4)
+            {
+                this.totalFlushes += 1;
+            //    return true;
+            //} else {
+            //    return false;
+            }
+            
         }
         public void CheckForRoyal()
         {
