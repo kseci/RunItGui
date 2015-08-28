@@ -7,10 +7,17 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApplication1
 {
-    class Deck
+    public class Deck
     {
-        public List<Card> CardDeck { get; set; }
-        public List<Card> DiscardDeck { get; set; }
+        private List<Card> _CardDeck;
+        private List<Card> _DiscardDeck;
+
+        public List<Card> CardDeck
+        {
+            get { return _CardDeck; }
+            set { _CardDeck = value; }
+        }
+
 
         private const int NUMBER_OF_CARDS = 52;
 
@@ -37,8 +44,8 @@ namespace WindowsFormsApplication1
 
         public Deck()
         {
-            CardDeck = GetListOfCards();
-            DiscardDeck = GetListOfDiscards();
+            _CardDeck = GetListOfCards();
+            _DiscardDeck = GetListOfDiscards();
 
         }
         public List<Card> GetListOfCards()
@@ -62,19 +69,19 @@ namespace WindowsFormsApplication1
         }
         public void Shuffle()
         {
-            int n = CardDeck.Count;
+            int n = _CardDeck.Count;
             while (n > 1)
             {
                 n--;
                 int k = ranNum.Next(n + 1);
-                Card value = CardDeck[k];
-                CardDeck[k] = CardDeck[n];
-                CardDeck[n] = value;
+                Card value = _CardDeck[k];
+                _CardDeck[k] = _CardDeck[n];
+                _CardDeck[n] = value;
             }
         }
         public void RealShuffle()
         {
-            int n = CardDeck.Count;
+            int n = _CardDeck.Count;
             while (n > 1)
             {
                 byte[] box = new byte[1];
@@ -82,46 +89,46 @@ namespace WindowsFormsApplication1
                 while (!(box[0] < n * (Byte.MaxValue / n)));
                 int k = (box[0] % n);
                 n--;
-                Card value = CardDeck[k];
-                CardDeck[k] = CardDeck[n];
-                CardDeck[n] = value;
+                Card value = _CardDeck[k];
+                _CardDeck[k] = _CardDeck[n];
+                _CardDeck[n] = value;
             }
         }
         public void DealCard()
         {
-            Card c = CardDeck[0];
-            DiscardDeck.Add(c);
-            CardDeck.RemoveAt(0);
+            Card c = _CardDeck[0];
+            _DiscardDeck.Add(c);
+            _CardDeck.RemoveAt(0);
         }
         public void PrintDeck()
         {
-            foreach (Card c in CardDeck)
+            foreach (Card c in _CardDeck)
             {
                 Console.WriteLine(c.ToString());
             }
         }
         public void PrintDeckInBox()
         {
-            foreach (Card c in CardDeck)
+            foreach (Card c in _CardDeck)
             {
-                Form1.Instance.AppendMyText(c.ToString());
+                //Form1.Instance.AppendMyText(c.ToString());
             }
         }
         public void PrintDiscards()
         {
-            foreach (Card c in DiscardDeck)
+            foreach (Card c in _DiscardDeck)
             {
                 Console.WriteLine(c.ToString());
             }
         }
         public void DeleteCard(string suit, string face)
         {
-            CardDeck.RemoveAll(delegate (Card x) { return x.suit == suit && x.face == face; });
+            _CardDeck.RemoveAll(delegate (Card x) { return x.suit == suit && x.face == face; });
         }
         public void CheckForRoyalInSpades()
         {
             int counter = 0;
-            foreach (Card c in DiscardDeck)
+            foreach (Card c in _DiscardDeck)
             {
                 if (c.suit == "Spades" && c.face == "Ten" || c.suit == "Spades" && c.face == "Jack" || c.suit == "Spades" && c.face == "Queen" || c.suit == "Spades" && c.face == "King" || c.suit == "Spades" && c.face == "Ace")
                 {
@@ -137,7 +144,7 @@ namespace WindowsFormsApplication1
         public void CheckForRoyalInHearts()
         {
             int counter = 0;
-            foreach (Card c in DiscardDeck)
+            foreach (Card c in _DiscardDeck)
             {
                 if (c.suit == "Hearts" && c.face == "Ten" || c.suit == "Hearts" && c.face == "Jack" || c.suit == "Hearts" && c.face == "Queen" || c.suit == "Hearts" && c.face == "King" || c.suit == "Hearts" && c.face == "Ace")
                 {
@@ -153,7 +160,7 @@ namespace WindowsFormsApplication1
         public void CheckForRoyalInDiamonds()
         {
             int counter = 0;
-            foreach (Card c in DiscardDeck)
+            foreach (Card c in _DiscardDeck)
             {
                 if (c.suit == "Diamonds" && c.face == "Ten" || c.suit == "Diamonds" && c.face == "Jack" || c.suit == "Diamonds" && c.face == "Queen" || c.suit == "Diamonds" && c.face == "King" || c.suit == "Diamonds" && c.face == "Ace")
                 {
@@ -169,7 +176,7 @@ namespace WindowsFormsApplication1
         public void CheckForRoyalInClubs()
         {
             int counter = 0;
-            foreach (Card c in DiscardDeck)
+            foreach (Card c in _DiscardDeck)
             {
                 if (c.suit == "Clubs" && c.face == "Ten" || c.suit == "Clubs" && c.face == "Jack" || c.suit == "Clubs" && c.face == "Queen" || c.suit == "Clubs" && c.face == "King" || c.suit == "Clubs" && c.face == "Ace")
                 {
@@ -188,23 +195,23 @@ namespace WindowsFormsApplication1
             int counterDiamonds = 0;
             int counterHearts = 0;
             int counterClubs = 0;
-            foreach (Card c in DiscardDeck)
+            foreach (Card c in _DiscardDeck)
             {
                 if (c.suit == "Spades")
                 {
                     counterSpades += 1;
                 }
-                if (c.suit == "Hearts")
+                if (c.suit == "Diamonds")
                 {
-                    counterSpades += 1;
+                    counterDiamonds += 1;
                 }
                 if (c.suit == "Hearts")
                 {
-                    counterSpades += 1;
+                    counterHearts += 1;
                 }
-                if (c.suit == "Hearts")
+                if (c.suit == "Clubs")
                 {
-                    counterSpades += 1;
+                    counterClubs += 1;
                 }
             }
            if (counterSpades > 4 || counterClubs > 4 || counterHearts > 4 || counterDiamonds > 4)
@@ -248,11 +255,28 @@ namespace WindowsFormsApplication1
         public int GetDeckLength()
         {
             int listLength = 0;
-            foreach (Card a in CardDeck)
+            foreach (Card a in _CardDeck)
             {
                 listLength += 1;
             }
             return listLength;
+        }
+        public void RunDeck(int cards, int iterations)
+        {
+            
+            for (int x = 0; x < iterations; x++)
+            {
+                for (int y = 0; y < cards; y++)
+                {
+                    DealCard();
+                }
+
+                CheckForFlush();
+                _CardDeck = GetListOfCards();
+                _DiscardDeck = GetListOfDiscards();
+                RealShuffle();
+
+            }
         }
 
     }

@@ -16,8 +16,8 @@ namespace WindowsFormsApplication1
         public static int numberOfDraws;
 
 
-        static Form1 instance;
-        public static Form1 Instance { get { return instance; } }
+        //static Form1 instance;
+        //public static Form1 Instance { get { return instance; } }
         Deck deck = new Deck();
         public Form1()
         {
@@ -89,16 +89,7 @@ namespace WindowsFormsApplication1
         private void button5_Click(object sender, EventArgs e)
         {
             textBox5.Text = "";
-            Deck deck = new Deck();
-            for (int x = 0; x < numberOfDraws; x++)
-            {
-                for(int y = 0; y < cardsToDraw; y++) { 
-                deck.DealCard();
-                }
-
-                deck.CheckForFlush();
-                deck = new Deck();
-            }
+            deck.RunDeck(cardsToDraw, numberOfDraws);
             textBox5.Text = "";
             textBox5.AppendText("---------------------------------------");
             textBox5.AppendText(Environment.NewLine);
