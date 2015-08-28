@@ -57,7 +57,7 @@ namespace WindowsFormsApplication1
 
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void setConditionsButton_Click(object sender, EventArgs e)
         {
             int cardsToDrawInput;
             int numberOfDrawsInput;
@@ -83,20 +83,60 @@ namespace WindowsFormsApplication1
             textBox4.AppendText("Number of cards drawn: " + cardsToDraw);
             textBox4.AppendText(Environment.NewLine);
             textBox4.AppendText("Number of total draws: " + numberOfDraws);
-
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void runMultiDeckButton_Click(object sender, EventArgs e)
         {
             textBox5.Text = "";
             deck.RunDeck(cardsToDraw, numberOfDraws);
             textBox5.Text = "";
             textBox5.AppendText("---------------------------------------");
             textBox5.AppendText(Environment.NewLine);
-            textBox5.AppendText("Total flushes: " + deck.totalFlushes.ToString());
+            textBox5.AppendText("Total Flushes: " + deck.totalFlushes.ToString() + " - " + 100 * (deck.totalFlushes / (double)numberOfDraws) + "%");
             textBox5.AppendText(Environment.NewLine);
             textBox5.AppendText("---------------------------------------");
             textBox5.AppendText(Environment.NewLine);
+            textBox5.AppendText("---------------------------------------");
+            textBox5.AppendText(Environment.NewLine);
+            textBox5.AppendText("Total Royal Flushes: " + deck.totalRoyalFlushes.ToString() + " - " + 100 * (deck.totalRoyalFlushes / (double)numberOfDraws) + "%");
+            textBox5.AppendText(Environment.NewLine);
+            textBox5.AppendText("---------------------------------------");
+            textBox5.AppendText(Environment.NewLine);
+        }
+
+        private void resetButton_Click(object sender, EventArgs e)
+        {
+            textBox5.Text = "";
+            deck.totalRoyalFlushes = 0;
+            deck.totalStraightFlushes = 0;
+            deck.totalFourOfAKind = 0;
+            deck.totalHouses = 0;
+            deck.totalFlushes = 0;
+            deck.totalStraights = 0;
+            deck.totalThreeOfAKind = 0;
+            deck.totalTwoPairs = 0;
+            deck.totalOnePairs = 0;
+            deck.totalHighCard = 0;
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = "";
+            deck.DealCard();
+            deck.DealCard();
+            deck.DealCard();
+            deck.DealCard();
+            deck.DealCard();
+            deck.SortCards();
+
+            List<Card> apekatt = deck.GetDiscardDeck();
+
+            for (int x = 0; x < apekatt.Count; x++)
+            {
+                string ls = string.Join(", ", apekatt[x].ToString());
+                textBox1.AppendText(ls);
+                textBox1.AppendText(Environment.NewLine);
+            }
         }
     }
 }

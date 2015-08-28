@@ -8,14 +8,16 @@ namespace WindowsFormsApplication1
 {
     public class Card
     {
-        public Card(string suit, string face)
+        public Card(string suit, string face, int id)
         {
             this.face = face;
             this.suit = suit;
+            this.id = id;
         }
 
         public string face { get; set; }
         public string suit { get; set; }
+        public int id { get; set; }
 
         public override string ToString()
         {

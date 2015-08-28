@@ -51,15 +51,15 @@ namespace WindowsFormsApplication1
         public List<Card> GetListOfCards()
         {
             List<Card> cards = new List<Card>();
-
-            foreach (string suit in suits)
+            int x = 52;
+                foreach (string suit in suits)
             {
                 foreach (string face in faces)
-                {
-                    cards.Add(new Card(suit, face));
+                {  
+                    cards.Add(new Card(suit, face, x));
+                    x--;
                 }
             }
-
             return cards;
         }
         public List<Card> GetListOfDiscards()
@@ -114,12 +114,11 @@ namespace WindowsFormsApplication1
                 //Form1.Instance.AppendMyText(c.ToString());
             }
         }
-        public void PrintDiscards()
+        public List<Card> GetDiscardDeck()
         {
-            foreach (Card c in _DiscardDeck)
-            {
-                Console.WriteLine(c.ToString());
-            }
+            
+                return _DiscardDeck;
+            
         }
         public void DeleteCard(string suit, string face)
         {
@@ -223,25 +222,52 @@ namespace WindowsFormsApplication1
             }
             
         }
-        public void CheckForRoyal()
+        public void CheckForRoyalFlush()
         {
-            Deck deck = new Deck();
-            int y = 0;
-            while (y < 649739)
+            int counterDiamonds = 0;
+            int counterClubs = 0;
+            int counterHearts = 0;
+            int counterSpades = 0;
+            foreach (Card c in _DiscardDeck) { 
+            if (c.suit == "Diamonds" && c.face == "Ten" || c.suit == "Diamonds" && c.face == "Jack" || c.suit == "Diamonds" && c.face == "Queen" || c.suit == "Diamonds" && c.face == "King" || c.suit == "Diamonds" && c.face == "Ace")
             {
-                RealShuffle();
-                for (int x = 0; x < 5; x++)
+                    counterDiamonds += 1;
+            } else if (c.suit == "Spades" && c.face == "Ten" || c.suit == "Spades" && c.face == "Jack" || c.suit == "Spades" && c.face == "Queen" || c.suit == "Spades" && c.face == "King" || c.suit == "Spades" && c.face == "Ace")
                 {
-                    deck.DealCard();
-
-
+                    counterSpades += 1;
                 }
-                y++;
-                CheckForRoyalInSpades();
-                CheckForRoyalInHearts();
-                CheckForRoyalInDiamonds();
-                CheckForRoyalInClubs();
-                deck = new Deck();
+                else if (c.suit == "Clubs" && c.face == "Ten" || c.suit == "Clubs" && c.face == "Jack" || c.suit == "Clubs" && c.face == "Queen" || c.suit == "Clubs" && c.face == "King" || c.suit == "Clubs" && c.face == "Ace")
+                {
+                    counterClubs += 1;
+                }
+                else if (c.suit == "Hearts" && c.face == "Ten" || c.suit == "Hearts" && c.face == "Jack" || c.suit == "Hearts" && c.face == "Queen" || c.suit == "Hearts" && c.face == "King" || c.suit == "Hearts" && c.face == "Ace")
+                {
+                    counterHearts += 1;
+                }
+            }
+            if (counterDiamonds > 4 || counterSpades > 4 || counterHearts > 4 || counterClubs > 4)
+            {
+                this.totalRoyalFlushes += 1;
+                this.totalFlushes -= 1;
+                this.totalStraightFlushes -= 1;
+            }
+        }
+        public void CheckForStraightFlush()
+        {
+            int counterDiamonds = 0;
+            int counterClubs = 0;
+            int counterHearts = 0;
+            int counterSpades = 0;
+            foreach (Card c in _DiscardDeck)
+                if (c.suit == "Hearts" && c.face == "Ten")
+            {
+
+            }
+            if (counterDiamonds > 4 || counterSpades > 4 || counterHearts > 4 || counterClubs > 4)
+            {
+                this.totalRoyalFlushes += 1;
+                this.totalFlushes -= 1;
+                this.totalStraightFlushes -= 1;
             }
         }
         public void PrintRoyals()
@@ -270,13 +296,54 @@ namespace WindowsFormsApplication1
                 {
                     DealCard();
                 }
-
+                SortCards();
                 CheckForFlush();
+                CheckForRoyalFlush();
                 _CardDeck = GetListOfCards();
                 _DiscardDeck = GetListOfDiscards();
                 RealShuffle();
 
             }
+        }
+        public void SortCards()
+        {
+            int gap = (_DiscardDeck.Count / 2);
+            while (gap > 0)
+            {
+                for (int i = 0; i < _DiscardDeck.Count - gap; i++)
+                {
+                    int j = i + gap;
+                    Card tmp = _DiscardDeck[j];
+                    while (j >= gap && tmp.id > _DiscardDeck[j - gap].id)
+                    {
+                        _DiscardDeck[j] = _DiscardDeck[j - gap];
+                        j -= gap;
+                    }
+                    _DiscardDeck[j] = tmp;
+
+                }
+                if (gap == 2)
+                {
+                    gap = 1;
+                } else
+                {
+                    gap /= (int)2.2;
+                }
+            }
+        }
+        public bool isFlush()
+        {
+         if (_DiscardDeck[0].suit == _DiscardDeck[4].suit)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+        public bool isStraight()
+        {
+            if (_DiscardDeck[0])
         }
 
     }
