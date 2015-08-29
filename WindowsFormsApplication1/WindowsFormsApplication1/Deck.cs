@@ -24,7 +24,6 @@ namespace WindowsFormsApplication1
         private string[] faces = {"Ace", "Duece", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
                                 "Jack", "Queen", "King"};
         private string[] suits = { "Hearts", "Clubs", "Diamonds", "Spades" };
-        private int currentCard;
 
        
         public int totalRoyalFlushes { get; set; }
@@ -250,25 +249,37 @@ namespace WindowsFormsApplication1
                 this.totalRoyalFlushes += 1;
                 this.totalFlushes -= 1;
                 this.totalStraightFlushes -= 1;
+                this.totalStraights -= 1;
             }
         }
         public void CheckForStraightFlush()
         {
-            int counterDiamonds = 0;
-            int counterClubs = 0;
-            int counterHearts = 0;
-            int counterSpades = 0;
-            foreach (Card c in _DiscardDeck)
-                if (c.suit == "Hearts" && c.face == "Ten")
+
+            for (int x = 0; x < _DiscardDeck.Count - 4; x++)
             {
+                bool ifFlushInHearts = _DiscardDeck[0 + x].suit == "Hearts" && _DiscardDeck[4 + x].suit == "Hearts";
+                bool ifFlushInSpades = _DiscardDeck[0 + x].suit == "Spades" && _DiscardDeck[4 + x].suit == "Spades";
+                bool ifFlushInDiamonds = _DiscardDeck[0 + x].suit == "Diamonds" && _DiscardDeck[4 + x].suit == "Diamonds";
+                bool ifFlushInClubs = _DiscardDeck[0 + x].suit == "Clubs" && _DiscardDeck[4 + x].suit == "Clubs";
+
+                if (ifFlushInHearts || ifFlushInSpades || ifFlushInDiamonds || ifFlushInClubs)
+                {
+                    for (int y = 0; y < 10; y++) { 
+                    if (_DiscardDeck[0 + x].face == this.faces[0 + y] && _DiscardDeck[4 + x].face == this.faces[4 + y])
+                    {
+                            this.totalStraightFlushes += 1;
+                            this.totalFlushes -= 1;
+                            this.totalStraights -= 1;
+                        }
+
+                    }
+                }
+
 
             }
-            if (counterDiamonds > 4 || counterSpades > 4 || counterHearts > 4 || counterClubs > 4)
-            {
-                this.totalRoyalFlushes += 1;
-                this.totalFlushes -= 1;
-                this.totalStraightFlushes -= 1;
-            }
+
+
+
         }
         public void PrintRoyals()
         {
@@ -297,8 +308,11 @@ namespace WindowsFormsApplication1
                     DealCard();
                 }
                 SortCards();
-                CheckForFlush();
+                
                 CheckForRoyalFlush();
+                CheckForStraightFlush();
+                CheckForFlush();
+                CheckForStraight();
                 _CardDeck = GetListOfCards();
                 _DiscardDeck = GetListOfDiscards();
                 RealShuffle();
@@ -333,18 +347,122 @@ namespace WindowsFormsApplication1
         }
         public bool isFlush()
         {
-         if (_DiscardDeck[0].suit == _DiscardDeck[4].suit)
+            int counterSpades = 0;
+            int counterDiamonds = 0;
+            int counterHearts = 0;
+            int counterClubs = 0;
+            foreach (Card c in _DiscardDeck)
+            {
+                if (c.suit == "Spades")
+                {
+                    counterSpades += 1;
+                }
+                if (c.suit == "Diamonds")
+                {
+                    counterDiamonds += 1;
+                }
+                if (c.suit == "Hearts")
+                {
+                    counterHearts += 1;
+                }
+                if (c.suit == "Clubs")
+                {
+                    counterClubs += 1;
+                }
+            }
+            if (counterSpades > 4 || counterClubs > 4 || counterHearts > 4 || counterDiamonds > 4)
             {
                 return true;
             } else
             {
                 return false;
             }
-        }
-        public bool isStraight()
-        {
-            if (_DiscardDeck[0])
-        }
 
+        }
+        public bool CheckForStraight()
+        {
+            int ace = 0;
+            int deuce = 0;
+            int three = 0;
+            int four = 0;
+            int five = 0;
+            int six = 0;
+            int seven = 0;
+            int eight = 0;
+            int nine = 0;
+            int ten = 0;
+            int jack = 0;
+            int queen = 0;
+            int king = 0;
+
+
+
+            foreach (Card c in _DiscardDeck)
+            {
+                switch (c.face)
+                {
+                    case "Ace":
+                    ace += 1;
+                    break;
+                    case "Deuce":
+                    deuce += 1;
+                    break;
+                    case "Three":
+                        three += 1;
+                        break;
+                    case "Four":
+                        four += 1;
+                        break;
+                    case "Five":
+                        five += 1;
+                        break;
+                    case "Six":
+                        six += 1;
+                        break;
+                    case "Seven":
+                        seven += 1;
+                        break;
+                    case "Eight":
+                        eight += 1;
+                        break;
+                    case "Nine":
+                        nine += 1;
+                        break;
+                    case "Ten":
+                        ten += 1;
+                        break;
+                    case "Jack":
+                        jack += 1;
+                        break;
+                    case "Queen":
+                        queen += 1;
+                        break;
+                    case "King":
+                        king += 1;
+                        break;
+                }
+
+            }
+            bool wheel = ace > 0 && deuce > 0 && three > 0 && four > 0 && five > 0;
+            bool twoSix = deuce > 0 && three > 0 && four > 0 && five > 0 && six > 0;
+            bool threeSeven = three > 0 && four > 0 && five > 0 && six > 0 && seven > 0;
+            bool fourEight = four > 0 && five > 0 && six > 0 && seven > 0 && eight > 0;
+            bool fiveNine = five > 0 && six > 0 && seven > 0 && eight > 0 && nine > 0;
+            bool sixTen = six > 0 && seven > 0 && eight > 0 && nine > 0 && ten > 0;
+            bool sevenJack = seven > 0 && eight > 0 && nine > 0 && ten > 0 && jack > 0;
+            bool eightQueen = eight > 0 && nine > 0 && ten > 0 && jack > 0 && queen > 0;
+            bool nineKing = nine > 0 && ten > 0 && jack > 0 && queen > 0 && king > 0;
+            bool tenAce = ten > 0 && jack > 0 && queen > 0 && king > 0 && ace > 0;
+            bool straight = wheel || twoSix || threeSeven || fourEight || fiveNine || sixTen || sevenJack || eightQueen || nineKing || tenAce;
+            if (straight)
+            {
+                totalStraights += 1;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
