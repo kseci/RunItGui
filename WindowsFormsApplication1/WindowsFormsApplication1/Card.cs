@@ -21,7 +21,7 @@ namespace WindowsFormsApplication1
 
         public override string ToString()
         {
-            return face + " of " + suit;
+            return face + " of " + suit + " - ID: " + id;
         }
         public override bool Equals(object obj)
         {

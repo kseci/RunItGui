@@ -25,7 +25,10 @@ namespace WindowsFormsApplication1
                                 "Jack", "Queen", "King"};
         private string[] suits = { "Hearts", "Clubs", "Diamonds", "Spades" };
 
-       
+        public int[] test { get; set; }
+        public int test2 { get; set; }
+
+
         public int totalRoyalFlushes { get; set; }
         public int totalStraightFlushes { get; set; }
         public int totalFourOfAKind { get; set; }
@@ -123,70 +126,6 @@ namespace WindowsFormsApplication1
         {
             _CardDeck.RemoveAll(delegate (Card x) { return x.suit == suit && x.face == face; });
         }
-        public void CheckForRoyalInSpades()
-        {
-            int counter = 0;
-            foreach (Card c in _DiscardDeck)
-            {
-                if (c.suit == "Spades" && c.face == "Ten" || c.suit == "Spades" && c.face == "Jack" || c.suit == "Spades" && c.face == "Queen" || c.suit == "Spades" && c.face == "King" || c.suit == "Spades" && c.face == "Ace")
-                {
-                    counter++;
-                }
-            }
-            if (counter >= 5)
-            {
-                Console.WriteLine("RoyalFlush in Spades!");
-                this.totalRoyalFlushes += 1;
-            }
-        }
-        public void CheckForRoyalInHearts()
-        {
-            int counter = 0;
-            foreach (Card c in _DiscardDeck)
-            {
-                if (c.suit == "Hearts" && c.face == "Ten" || c.suit == "Hearts" && c.face == "Jack" || c.suit == "Hearts" && c.face == "Queen" || c.suit == "Hearts" && c.face == "King" || c.suit == "Hearts" && c.face == "Ace")
-                {
-                    counter++;
-                }
-            }
-            if (counter >= 5)
-            {
-                Console.WriteLine("RoyalFlush in Hearts!");
-                this.totalRoyalFlushes += 1;
-            }
-        }
-        public void CheckForRoyalInDiamonds()
-        {
-            int counter = 0;
-            foreach (Card c in _DiscardDeck)
-            {
-                if (c.suit == "Diamonds" && c.face == "Ten" || c.suit == "Diamonds" && c.face == "Jack" || c.suit == "Diamonds" && c.face == "Queen" || c.suit == "Diamonds" && c.face == "King" || c.suit == "Diamonds" && c.face == "Ace")
-                {
-                    counter++;
-                }
-            }
-            if (counter >= 5)
-            {
-                Console.WriteLine("RoyalFlush in Diamonds!");
-                this.totalRoyalFlushes += 1;
-            }
-        }
-        public void CheckForRoyalInClubs()
-        {
-            int counter = 0;
-            foreach (Card c in _DiscardDeck)
-            {
-                if (c.suit == "Clubs" && c.face == "Ten" || c.suit == "Clubs" && c.face == "Jack" || c.suit == "Clubs" && c.face == "Queen" || c.suit == "Clubs" && c.face == "King" || c.suit == "Clubs" && c.face == "Ace")
-                {
-                    counter++;
-                }
-            }
-            if (counter >= 5)
-            {
-                Console.WriteLine("RoyalFlush in Clubs!");
-                this.totalRoyalFlushes += 1;
-            }
-        }
         public void CheckForFlush()
         {
             int counterSpades = 0;
@@ -277,19 +216,114 @@ namespace WindowsFormsApplication1
 
 
             }
-
-
-
         }
-        public void PrintRoyals()
+        public void CheckForFourOfAKind()
         {
-            while (true)
+            int[] pairs = new int[13];
+            int tmp;
+
+            for (int x = 0; x < _DiscardDeck.Count; x++)
             {
-                Console.Clear();
-                Console.WriteLine("hallo");
+                tmp = _DiscardDeck[x].id;
+                    if (tmp <= 13)
+                    {
+                        pairs[tmp - 1] += 1;
+                    }
+                    else if (tmp <= 26)
+                    {
+                        pairs[tmp - 14] += 1;
+                    }
+                    else if (tmp <= 39)
+                    {
+                        pairs[tmp - 27] += 1;
+                    }
+                    else if (tmp <= 52)
+                    {
+                        pairs[tmp - 40] += 1;
+                    }
+
+            }
+            if (pairs.Max() > 3)
+            {
+                totalFourOfAKind += 1;
+                totalThreeOfAKind -= 1;
+                totalOnePairs -= 1;
+            }
+        }
+        public void CheckForFullHouse()
+        {
+            int[] pairs = new int[13];
+            int tmp;
+
+            for (int x = 0; x < _DiscardDeck.Count; x++)
+            {
+                tmp = _DiscardDeck[x].id;
+                if (tmp <= 13)
+                {
+                    pairs[tmp - 1] += 1;
+                }
+                else if (tmp <= 26)
+                {
+                    pairs[tmp - 14] += 1;
+                }
+                else if (tmp <= 39)
+                {
+                    pairs[tmp - 27] += 1;
+                }
+                else if (tmp <= 52)
+                {
+                    pairs[tmp - 40] += 1;
+                }
+
+            }
+            int maxValue = pairs.Max();
+            int maxIndex = pairs.ToList().IndexOf(maxValue);
+            pairs[maxIndex] = 0;
+            int nextMaxValue = pairs.Max();
+            if (maxValue > 2 && nextMaxValue > 1)
+
+            {
+                totalHouses += 1;
+                totalThreeOfAKind -= 1;
+                totalTwoPairs -= 1;
+                totalOnePairs -= 1;
+            }
+        }
+        public void CheckForThreeOfAKind()
+        {
+            int[] pairs = new int[13];
+            int tmp;
+
+            for (int x = 0; x < _DiscardDeck.Count; x++)
+            {
+                tmp = _DiscardDeck[x].id;
+                if (tmp <= 13)
+                {
+                    pairs[tmp - 1] += 1;
+                }
+                else if (tmp <= 26)
+                {
+                    pairs[tmp - 14] += 1;
+                }
+                else if (tmp <= 39)
+                {
+                    pairs[tmp - 27] += 1;
+                }
+                else if (tmp <= 52)
+                {
+                    pairs[tmp - 40] += 1;
+                }
+
+            }
+            if (pairs.Max() > 2)
+
+            {
+                totalThreeOfAKind += 1;
+                totalOnePairs -= 1;
             }
         }
         public int GetDeckLength()
+        { 
         {
             int listLength = 0;
             foreach (Card a in _CardDeck)
@@ -297,7 +331,9 @@ namespace WindowsFormsApplication1
                 listLength += 1;
             }
             return listLength;
-        }
+           }
+         }
+
         public void RunDeck(int cards, int iterations)
         {
             
@@ -310,6 +346,8 @@ namespace WindowsFormsApplication1
                 SortCards();
                 
                 CheckForRoyalFlush();
+                CheckForFourOfAKind();
+                CheckForFullHouse();
                 CheckForStraightFlush();
                 CheckForFlush();
                 CheckForStraight();

@@ -104,6 +104,18 @@ namespace WindowsFormsApplication1
             textBox5.AppendText(Environment.NewLine);
             textBox5.AppendText("---------------------------------------");
             textBox5.AppendText(Environment.NewLine);
+            textBox5.AppendText("Total Four Of A Kind: " + deck.totalFourOfAKind.ToString() + " - " + 100 * (deck.totalFourOfAKind / (double)numberOfDraws) + "%");
+            textBox5.AppendText(Environment.NewLine);
+            textBox5.AppendText("---------------------------------------");
+            textBox5.AppendText(Environment.NewLine);
+            textBox5.AppendText("---------------------------------------");
+            textBox5.AppendText(Environment.NewLine);
+            textBox5.AppendText("Total Full House: " + deck.totalHouses.ToString() + " - " + 100 * (deck.totalHouses / (double)numberOfDraws) + "%");
+            textBox5.AppendText(Environment.NewLine);
+            textBox5.AppendText("---------------------------------------");
+            textBox5.AppendText(Environment.NewLine);
+            textBox5.AppendText("---------------------------------------");
+            textBox5.AppendText(Environment.NewLine);
             textBox5.AppendText("Total Flushes: " + deck.totalFlushes.ToString() + " - " + 100 * (deck.totalFlushes / (double)numberOfDraws) + "%");
             textBox5.AppendText(Environment.NewLine);
             textBox5.AppendText("---------------------------------------");
