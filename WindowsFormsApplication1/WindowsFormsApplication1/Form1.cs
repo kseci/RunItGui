@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WindowsFormsApplication1
+namespace Dildokaare
 {
     public partial class Form1 : Form
     {
@@ -89,6 +89,7 @@ namespace WindowsFormsApplication1
         {
             textBox5.Text = "";
             deck.RunDeck(cardsToDraw, numberOfDraws);
+            int highCard = numberOfDraws - deck.totalRoyalFlushes - deck.totalStraightFlushes - deck.totalFourOfAKind - deck.totalHouses - deck.totalFlushes - deck.totalStraights - deck.totalThreeOfAKind - deck.totalTwoPairs - deck.totalOnePairs; 
             textBox5.Text = "";
             textBox5.AppendText("---------------------------------------");
             textBox5.AppendText(Environment.NewLine);
@@ -123,6 +124,30 @@ namespace WindowsFormsApplication1
             textBox5.AppendText("---------------------------------------");
             textBox5.AppendText(Environment.NewLine);
             textBox5.AppendText("Total Straights: " + deck.totalStraights.ToString() + " - " + 100 * (deck.totalStraights / (double)numberOfDraws) + "%");
+            textBox5.AppendText(Environment.NewLine);
+            textBox5.AppendText("---------------------------------------");
+            textBox5.AppendText(Environment.NewLine);
+            textBox5.AppendText("---------------------------------------");
+            textBox5.AppendText(Environment.NewLine);
+            textBox5.AppendText("Total Three Of A Kind: " + deck.totalThreeOfAKind.ToString() + " - " + 100 * (deck.totalThreeOfAKind / (double)numberOfDraws) + "%");
+            textBox5.AppendText(Environment.NewLine);
+            textBox5.AppendText("---------------------------------------");
+            textBox5.AppendText(Environment.NewLine);
+            textBox5.AppendText("---------------------------------------");
+            textBox5.AppendText(Environment.NewLine);
+            textBox5.AppendText("Total Two Pairs: " + deck.totalTwoPairs.ToString() + " - " + 100 * (deck.totalTwoPairs / (double)numberOfDraws) + "%");
+            textBox5.AppendText(Environment.NewLine);
+            textBox5.AppendText("---------------------------------------");
+            textBox5.AppendText(Environment.NewLine);
+            textBox5.AppendText("---------------------------------------");
+            textBox5.AppendText(Environment.NewLine);
+            textBox5.AppendText("Total Two Pairs: " + deck.totalOnePairs.ToString() + " - " + 100 * (deck.totalOnePairs / (double)numberOfDraws) + "%");
+            textBox5.AppendText(Environment.NewLine);
+            textBox5.AppendText("---------------------------------------");
+            textBox5.AppendText(Environment.NewLine);
+            textBox5.AppendText("---------------------------------------");
+            textBox5.AppendText(Environment.NewLine);
+            textBox5.AppendText("High Card: " + highCard + " - " + 100 * (highCard / (double)numberOfDraws) + "%");
             textBox5.AppendText(Environment.NewLine);
             textBox5.AppendText("---------------------------------------");
             textBox5.AppendText(Environment.NewLine);

@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApplication1
+﻿namespace Dildokaare
 {
     partial class Form1
     {

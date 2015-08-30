@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WindowsFormsApplication1
+namespace Dildokaare
 {
     public class Deck
     {
@@ -322,6 +322,75 @@ namespace WindowsFormsApplication1
                 totalOnePairs -= 1;
             }
         }
+        public void CheckForTwoPairs()
+        {
+            int[] pairs = new int[13];
+            int tmp;
+
+            for (int x = 0; x < _DiscardDeck.Count; x++)
+            {
+                tmp = _DiscardDeck[x].id;
+                if (tmp <= 13)
+                {
+                    pairs[tmp - 1] += 1;
+                }
+                else if (tmp <= 26)
+                {
+                    pairs[tmp - 14] += 1;
+                }
+                else if (tmp <= 39)
+                {
+                    pairs[tmp - 27] += 1;
+                }
+                else if (tmp <= 52)
+                {
+                    pairs[tmp - 40] += 1;
+                }
+
+            }
+            int maxValue = pairs.Max();
+            int maxIndex = pairs.ToList().IndexOf(maxValue);
+            pairs[maxIndex] = 0;
+            int nextMaxValue = pairs.Max();
+            if (maxValue > 1 && nextMaxValue > 1)
+
+            {
+                totalTwoPairs += 1;
+                totalOnePairs -= 1;
+            }
+        }
+        public void CheckForOnePair()
+        {
+            int[] pairs = new int[13];
+            int tmp;
+
+            for (int x = 0; x < _DiscardDeck.Count; x++)
+            {
+                tmp = _DiscardDeck[x].id;
+                if (tmp <= 13)
+                {
+                    pairs[tmp - 1] += 1;
+                }
+                else if (tmp <= 26)
+                {
+                    pairs[tmp - 14] += 1;
+                }
+                else if (tmp <= 39)
+                {
+                    pairs[tmp - 27] += 1;
+                }
+                else if (tmp <= 52)
+                {
+                    pairs[tmp - 40] += 1;
+                }
+
+            }
+            if (pairs.Max() > 1)
+
+            {
+                totalOnePairs += 1;
+            }
+        }
         public int GetDeckLength()
         { 
         {
@@ -339,10 +408,12 @@ namespace WindowsFormsApplication1
             
             for (int x = 0; x < iterations; x++)
             {
+                RealShuffle();
                 for (int y = 0; y < cards; y++)
                 {
                     DealCard();
                 }
+                
                 SortCards();
                 
                 CheckForRoyalFlush();
@@ -351,9 +422,12 @@ namespace WindowsFormsApplication1
                 CheckForStraightFlush();
                 CheckForFlush();
                 CheckForStraight();
+                CheckForThreeOfAKind();
+                CheckForTwoPairs();
+                CheckForOnePair();
                 _CardDeck = GetListOfCards();
                 _DiscardDeck = GetListOfDiscards();
-                RealShuffle();
+                
 
             }
         }
