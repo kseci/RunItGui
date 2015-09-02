@@ -141,7 +141,7 @@ namespace Dildokaare
             textBox5.AppendText(Environment.NewLine);
             textBox5.AppendText("---------------------------------------");
             textBox5.AppendText(Environment.NewLine);
-            textBox5.AppendText("Total Two Pairs: " + deck.totalOnePairs.ToString() + " - " + 100 * (deck.totalOnePairs / (double)numberOfDraws) + "%");
+            textBox5.AppendText("Total Two Pairs: " + deck.totalOnePairs.ToString() + " - " +100 * (deck.totalOnePairs / (double)numberOfDraws) + "%");
             textBox5.AppendText(Environment.NewLine);
             textBox5.AppendText("---------------------------------------");
             textBox5.AppendText(Environment.NewLine);
